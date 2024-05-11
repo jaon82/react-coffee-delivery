@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { mixins } from "./mixins";
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -12,10 +13,7 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
   body, input, textarea, button {
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 130%;
+    ${mixins.fonts.textM};
   }
   :focus{
     outline: 0;
