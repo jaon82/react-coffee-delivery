@@ -19,3 +19,21 @@ export const IntroContainer = styled.section`
     }
   }
 `;
+
+export const ItemsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 4.125rem;
+  gap: 2.5rem;
+
+  &:nth-of-type(3) {
+    margin-top: 1.25rem;
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 235px;
+  }
+`;
