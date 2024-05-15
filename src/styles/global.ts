@@ -18,4 +18,8 @@ export const GlobalStyle = createGlobalStyle`
   :focus{
     outline: 0;
   }
+  button {
+    border: none;
+    cursor: pointer;
+  }
 `;
