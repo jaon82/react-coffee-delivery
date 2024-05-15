@@ -3,6 +3,7 @@ import { IntroContainer, ItemsContainer } from "./styles";
 import { Coffee, Package, ShoppingCart, Timer } from "phosphor-react";
 import { useTheme } from "styled-components";
 import backgroundImage from "../../assets/intro-background.svg";
+import CoffeesList from "../../components/CoffeesList";
 import DynamicIcon from "../../components/DynamicIcon";
 
 export default function Home() {
@@ -52,6 +53,7 @@ export default function Home() {
           <img src={backgroundImage} />
         </aside>
       </IntroContainer>
+      <CoffeesList />
     </>
   );
 }
