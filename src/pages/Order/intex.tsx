@@ -5,10 +5,12 @@ import {
   MapPinLine,
   Money,
 } from "phosphor-react";
+import OrderItem from "../../components/OrderItem";
 import RadioButton from "../../components/RadioButton";
 import TextInput from "../../components/TextInput";
 import {
   AddressFields,
+  Divider,
   InputsContainer,
   LabelContainer,
   LabelDescription,
@@ -16,6 +18,7 @@ import {
   OrdeResume,
   OrderContainer,
   OrderSectionTitle,
+  OrderTotal,
   PaymentFields,
   PaymentOptionsContainer,
 } from "./styles";
@@ -73,7 +76,25 @@ export default function Order() {
       </div>
       <div>
         <OrderSectionTitle>Cafés selecionados</OrderSectionTitle>
-        <OrdeResume></OrdeResume>
+        <OrdeResume>
+          <OrderItem />
+          <Divider />
+          <OrderTotal>
+            <div>
+              <span>Total de itens</span>
+              <span>R$ 29,70</span>
+            </div>
+            <div>
+              <span>Entrega</span>
+              <span>R$ 3,50</span>
+            </div>
+            <div>
+              <span>Total</span>
+              <span>R$ 33,20</span>
+            </div>
+          </OrderTotal>
+          <button>Confirmar pedido</button>
+        </OrdeResume>
       </div>
     </OrderContainer>
   );

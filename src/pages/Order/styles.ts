@@ -9,6 +9,10 @@ export const OrderContainer = styled.form`
   > div:first-child {
     min-width: 640px;
   }
+
+  > div:nth-child(2) {
+    flex: 1;
+  }
 `;
 
 export const OrderSectionTitle = styled.h3`
@@ -26,7 +30,25 @@ export const AddressFields = styled(BaseCard)`
   }
 `;
 
-export const OrdeResume = styled(BaseCard)``;
+export const OrdeResume = styled(BaseCard)`
+  border-top-right-radius: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  > button {
+    border-radius: 6px;
+    padding: 0.75rem 0.5rem;
+    background-color: ${(props) => props.theme.yellow};
+    color: ${(props) => props.theme.white};
+    text-transform: uppercase;
+    ${mixins.fonts.buttonG}
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+`;
 
 export const LabelContainer = styled.div`
   display: flex;
@@ -92,4 +114,30 @@ export const PaymentFields = styled(BaseCard)`
   div > svg {
     color: ${(props) => props.theme.purple};
   }
+`;
+
+export const OrderTotal = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+
+    > span:first-child {
+      ${mixins.fonts.textS}
+    }
+  }
+
+  div:nth-child(3) {
+    > span {
+      ${mixins.fonts.textL}
+      font-weight: bold;
+    }
+  }
+`;
+
+export const Divider = styled.hr`
+  border: solid 1px ${(props) => props.theme["base-button"]};
 `;
