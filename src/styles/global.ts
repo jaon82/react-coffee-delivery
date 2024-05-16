@@ -14,6 +14,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   body, input, textarea, button {
     ${mixins.fonts.textM};
+    color: ${(props) => props.theme["base-text"]};
   }
   :focus{
     outline: 0;
