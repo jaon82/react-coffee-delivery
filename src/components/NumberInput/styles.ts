@@ -5,6 +5,7 @@ export const NumberInputContainer = styled.div`
   border-radius: 6px;
   padding: 0.5rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 0.25rem;
   height: 38px;
