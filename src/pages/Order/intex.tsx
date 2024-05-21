@@ -5,6 +5,10 @@ import {
   MapPinLine,
   Money,
 } from "phosphor-react";
+import { useForm } from "react-hook-form";
+import * as zod from "zod";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import OrderItem from "../../components/OrderItem";
 import RadioButton from "../../components/RadioButton";
 import TextInput from "../../components/TextInput";
@@ -23,9 +27,33 @@ import {
   PaymentOptionsContainer,
 } from "./styles";
 
+const orderValidationSchema = zod.object({
+  cep: zod.number(),
+  street: zod.string(),
+  number: zod.number(),
+  adjunct: zod.string(),
+  neighborhood: zod.string(),
+  city: zod.string(),
+  state: zod.string(),
+  paymentMethod: zod.enum(["credit", "debit", "money"]),
+});
+
+type OrderFormData = zod.infer<typeof orderValidationSchema>;
+
 export default function Order() {
+  const { register, handleSubmit, formState, reset } = useForm<OrderFormData>({
+    resolver: zodResolver(orderValidationSchema),
+  });
+
+  const handleCreateOrder = (data: OrderFormData) => {
+    console.log(data);
+    reset();
+  };
+
+  console.log(formState.errors);
+
   return (
-    <OrderContainer>
+    <OrderContainer onSubmit={handleSubmit(handleCreateOrder)}>
       <div>
         <OrderSectionTitle>Complete seu pedido</OrderSectionTitle>
         <AddressFields>
@@ -39,13 +67,24 @@ export default function Order() {
             </div>
           </LabelContainer>
           <InputsContainer>
-            <TextInput placeholder="CEP" />
-            <TextInput placeholder="Rua" />
-            <TextInput placeholder="Número" />
-            <TextInput placeholder="Complemento" required={false} />
-            <TextInput placeholder="Bairro" />
-            <TextInput placeholder="Cidade" />
-            <TextInput placeholder="UF" />
+            <TextInput
+              placeholder="CEP"
+              {...register("cep", { valueAsNumber: true })}
+            />
+            <TextInput placeholder="Rua" {...register("street")} />
+            <TextInput
+              placeholder="Número"
+              {...register("number", { valueAsNumber: true })}
+              type="number"
+            />
+            <TextInput
+              placeholder="Complemento"
+              required={false}
+              {...register("adjunct")}
+            />
+            <TextInput placeholder="Bairro" {...register("neighborhood")} />
+            <TextInput placeholder="Cidade" {...register("city")} />
+            <TextInput placeholder="UF" {...register("state")} />
           </InputsContainer>
         </AddressFields>
         <PaymentFields>
@@ -59,15 +98,15 @@ export default function Order() {
             </div>
           </LabelContainer>
           <PaymentOptionsContainer>
-            <RadioButton name="paymentMethod">
+            <RadioButton {...register("paymentMethod")} value="credit">
               <CreditCard size={16} />
               <span>Cartão de crédito</span>
             </RadioButton>
-            <RadioButton name="paymentMethod">
+            <RadioButton {...register("paymentMethod")} value="debit">
               <Bank size={16} />
               <span>cartão de débito</span>
             </RadioButton>
-            <RadioButton name="paymentMethod">
+            <RadioButton {...register("paymentMethod")} value="money">
               <Money size={16} />
               <span>Dinheiro</span>
             </RadioButton>
