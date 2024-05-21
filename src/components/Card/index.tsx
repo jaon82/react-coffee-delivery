@@ -7,25 +7,39 @@ import {
   CoffeeTag,
   Currency,
   Price,
+  TagsContainer,
 } from "./styles";
 
 import { ShoppingCart } from "phosphor-react";
-import expressoTradicionalImg from "../../assets/expresso-tradicional.png";
 import NumberInput from "../NumberInput";
 
-export default function Card() {
+interface Coffee {
+  image: string;
+  types: string[];
+  name: string;
+  description: string;
+  price: number;
+}
+interface CardProps {
+  coffee: Coffee;
+}
+export default function Card({ coffee }: CardProps) {
   return (
     <CardContainer>
-      <img src={expressoTradicionalImg} width={120} />
-      <CoffeeTag>Tradicional</CoffeeTag>
-      <CoffeeName>Expresso Tradicional</CoffeeName>
-      <CoffeeDrescription>
-        O tradicional café feito com água quente e grãos moídos
-      </CoffeeDrescription>
+      <img src={coffee.image} width={120} />
+      <TagsContainer>
+        {coffee.types.map((type) => (
+          <CoffeeTag>{type}</CoffeeTag>
+        ))}
+      </TagsContainer>
+      <CoffeeName>{coffee.name}</CoffeeName>
+      <CoffeeDrescription>{coffee.description}</CoffeeDrescription>
       <CoffeeOrder>
         <div>
           <Currency>R$</Currency>
-          <Price>9,90</Price>
+          <Price>
+            {coffee.price.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+          </Price>
         </div>
         <div>
           <NumberInput />

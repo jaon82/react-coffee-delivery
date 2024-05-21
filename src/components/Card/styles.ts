@@ -15,7 +15,12 @@ export const CardContainer = styled.div`
     margin-top: -30px;
   }
 `;
-
+export const TagsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.25rem;
+`;
 export const CoffeeTag = styled.span`
   background-color: ${(props) => props.theme["yellow-light"]};
   padding: 0.25rem 0.5rem;
