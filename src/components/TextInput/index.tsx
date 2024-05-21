@@ -1,16 +1,20 @@
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, LegacyRef, forwardRef } from "react";
 import { TextInputContainer } from "./styles";
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-export default function TextInput({
-  required = true,
-  ...rest
-}: TextInputProps) {
-  return (
-    <TextInputContainer>
-      <input {...rest} />
-      {!required && <span>Opcional</span>}
-    </TextInputContainer>
-  );
-}
+const TextInput = forwardRef(
+  (
+    { required = true, ...rest }: TextInputProps,
+    ref: LegacyRef<HTMLInputElement>
+  ) => {
+    return (
+      <TextInputContainer>
+        <input {...rest} ref={ref} />
+        {!required && <span>Opcional</span>}
+      </TextInputContainer>
+    );
+  }
+);
+
+export default TextInput;
