@@ -1,18 +1,24 @@
 import { InputHTMLAttributes, LegacyRef, forwardRef } from "react";
-import { TextInputContainer } from "./styles";
+import { FieldError } from "react-hook-form";
+import { ErrorContainer, TextInputContainer } from "./styles";
 
-interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  error?: FieldError;
+}
 
 const TextInput = forwardRef(
   (
-    { required = true, ...rest }: TextInputProps,
+    { error, required = true, ...rest }: TextInputProps,
     ref: LegacyRef<HTMLInputElement>
   ) => {
     return (
-      <TextInputContainer>
-        <input {...rest} ref={ref} />
-        {!required && <span>Opcional</span>}
-      </TextInputContainer>
+      <div>
+        <TextInputContainer>
+          <input {...rest} ref={ref} />
+          {!required && <span>Opcional</span>}
+        </TextInputContainer>
+        {error?.message && <ErrorContainer>{error.message}</ErrorContainer>}
+      </div>
     );
   }
 );

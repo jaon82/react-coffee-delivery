@@ -145,3 +145,10 @@ export const OrderTotal = styled.div`
 export const Divider = styled.hr`
   border: solid 1px ${(props) => props.theme["base-button"]};
 `;
+
+export const ErrorContainer = styled.div`
+  margin-top: 1rem;
+  color: ${(props) => props.theme["base-error"]};
+  ${mixins.fonts.textXS}
+  font-weight: 400;
+`;

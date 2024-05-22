@@ -32,3 +32,9 @@ export const TextInputContainer = styled.div`
     color: ${(props) => props.theme["base-label"]};
   }
 `;
+
+export const ErrorContainer = styled.span`
+  color: ${(props) => props.theme["base-error"]};
+  ${mixins.fonts.textXS}
+  font-weight: 400;
+`;

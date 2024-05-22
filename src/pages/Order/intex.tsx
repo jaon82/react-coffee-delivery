@@ -16,6 +16,7 @@ import useOrder from "../../hooks/useOrder";
 import {
   AddressFields,
   Divider,
+  ErrorContainer,
   InputsContainer,
   LabelContainer,
   LabelDescription,
@@ -31,14 +32,16 @@ import {
 import coffeesList from "../../coffees.json";
 
 const orderValidationSchema = zod.object({
-  cep: zod.number(),
-  street: zod.string(),
-  number: zod.number(),
+  cep: zod.number({ message: "Informe o CEP (somente números)" }),
+  street: zod.string().min(1, "Informe a rua"),
+  number: zod.number({ message: "Informe o número" }),
   adjunct: zod.string(),
-  neighborhood: zod.string(),
-  city: zod.string(),
-  state: zod.string(),
-  paymentMethod: zod.enum(["credit", "debit", "money"]),
+  neighborhood: zod.string().min(1, "Informe o bairro"),
+  city: zod.string().min(1, "Informe a cidade"),
+  state: zod.string().min(1, "Informe o estado"),
+  paymentMethod: zod.enum(["credit", "debit", "money"], {
+    message: "Informe o método de pagamento",
+  }),
 });
 
 type OrderFormData = zod.infer<typeof orderValidationSchema>;
@@ -46,16 +49,21 @@ type OrderFormData = zod.infer<typeof orderValidationSchema>;
 export default function Order() {
   const shippmentPrice = 3.5;
   const { items } = useOrder();
-  const { register, handleSubmit, formState, reset } = useForm<OrderFormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<OrderFormData>({
     resolver: zodResolver(orderValidationSchema),
   });
+
+  console.log(errors);
 
   const handleCreateOrder = (data: OrderFormData) => {
     console.log(data);
     reset();
   };
-
-  console.log(formState.errors);
 
   const orderCoffees = items.map((item) => {
     const coffee = coffeesList.find((coffee) => coffee.id === item.id)!;
@@ -90,21 +98,39 @@ export default function Order() {
             <TextInput
               placeholder="CEP"
               {...register("cep", { valueAsNumber: true })}
+              error={errors.cep}
             />
-            <TextInput placeholder="Rua" {...register("street")} />
+            <TextInput
+              placeholder="Rua"
+              {...register("street")}
+              error={errors.street}
+            />
             <TextInput
               placeholder="Número"
               {...register("number", { valueAsNumber: true })}
               type="number"
+              error={errors.number}
             />
             <TextInput
               placeholder="Complemento"
               required={false}
               {...register("adjunct")}
             />
-            <TextInput placeholder="Bairro" {...register("neighborhood")} />
-            <TextInput placeholder="Cidade" {...register("city")} />
-            <TextInput placeholder="UF" {...register("state")} />
+            <TextInput
+              placeholder="Bairro"
+              {...register("neighborhood")}
+              error={errors.neighborhood}
+            />
+            <TextInput
+              placeholder="Cidade"
+              {...register("city")}
+              error={errors.city}
+            />
+            <TextInput
+              placeholder="UF"
+              {...register("state")}
+              error={errors.state}
+            />
           </InputsContainer>
         </AddressFields>
         <PaymentFields>
@@ -131,6 +157,9 @@ export default function Order() {
               <span>Dinheiro</span>
             </RadioButton>
           </PaymentOptionsContainer>
+          {errors.paymentMethod && (
+            <ErrorContainer>{errors.paymentMethod.message}</ErrorContainer>
+          )}
         </PaymentFields>
       </div>
       <div>

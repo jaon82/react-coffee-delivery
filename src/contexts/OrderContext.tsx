@@ -35,8 +35,6 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     ]);
   };
 
-  console.log(items);
-
   const removeItem = (itemId: number) => {
     const itemsUpdated = items.filter((item) => item.id !== itemId);
     setItems(itemsUpdated);
