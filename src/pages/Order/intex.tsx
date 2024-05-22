@@ -29,6 +29,7 @@ import {
   PaymentOptionsContainer,
 } from "./styles";
 
+import { useNavigate } from "react-router-dom";
 import coffeesList from "../../coffees.json";
 
 const orderValidationSchema = zod.object({
@@ -47,8 +48,9 @@ const orderValidationSchema = zod.object({
 type OrderFormData = zod.infer<typeof orderValidationSchema>;
 
 export default function Order() {
+  const navigate = useNavigate();
   const shippmentPrice = 3.5;
-  const { items } = useOrder();
+  const { items, createOrder } = useOrder();
   const {
     register,
     handleSubmit,
@@ -58,11 +60,14 @@ export default function Order() {
     resolver: zodResolver(orderValidationSchema),
   });
 
-  console.log(errors);
-
   const handleCreateOrder = (data: OrderFormData) => {
-    console.log(data);
+    const order = {
+      info: data,
+      items,
+    };
+    createOrder(order);
     reset();
+    navigate("/");
   };
 
   const orderCoffees = items.map((item) => {

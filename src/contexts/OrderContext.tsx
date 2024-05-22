@@ -1,10 +1,21 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 
 export interface Item {
   id: number;
   quantity: number;
 }
+interface OrderInfo {
+  number: number;
+  cep: number;
+  street: string;
+  adjunct: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  paymentMethod: "credit" | "debit" | "money";
+}
 interface Order {
+  info: OrderInfo;
   items: Item[];
 }
 interface OrderContextProps {
@@ -14,6 +25,7 @@ interface OrderContextProps {
   removeItem: (itemId: number) => void;
   incrementItemQuantity: (itemId: number) => void;
   decrementItemQuantity: (itemId: number) => void;
+  createOrder: (order: Order) => void;
 }
 
 export const OrderContext = createContext({} as OrderContextProps);
@@ -60,7 +72,13 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     setItems(itemsUpdated);
   };
 
-  const confirmOrder = () => {};
+  const createOrder = (order: Order) => {
+    setOrders((state) => [...state, order]);
+  };
+
+  useEffect(() => {
+    setItems([]);
+  }, [orders]);
 
   return (
     <OrderContext.Provider
@@ -71,6 +89,7 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
         removeItem,
         incrementItemQuantity,
         decrementItemQuantity,
+        createOrder,
       }}
     >
       {children}
