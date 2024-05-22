@@ -3,6 +3,7 @@ import { mixins } from "../../styles/mixins";
 
 export const CoffeesListContainer = styled.div`
   margin-top: 2rem;
+  margin-bottom: 10rem;
 `;
 
 export const CoffeesListTitle = styled.h2`
