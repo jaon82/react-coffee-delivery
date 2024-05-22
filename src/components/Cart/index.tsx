@@ -1,11 +1,20 @@
 import { ShoppingCart } from "phosphor-react";
 
-import { CartContainer } from "./styles";
+import { Link } from "react-router-dom";
+import useOrder from "../../hooks/useOrder";
+import { CartContainer, ItemsCounter } from "./styles";
 
 export default function Cart() {
+  const { items } = useOrder();
+
+  const quantity = items.length;
+
   return (
     <CartContainer>
-      <ShoppingCart size={22} weight="fill" />
+      <Link to="order">
+        <ShoppingCart size={22} weight="fill" />
+        <ItemsCounter>{quantity}</ItemsCounter>
+      </Link>
     </CartContainer>
   );
 }

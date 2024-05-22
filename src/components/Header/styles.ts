@@ -11,7 +11,7 @@ export const HeaderContainer = styled.div`
     align-items: center;
     gap: 1rem;
 
-    a {
+    > a {
       display: flex;
       align-items: center;
       gap: 0.25rem;
