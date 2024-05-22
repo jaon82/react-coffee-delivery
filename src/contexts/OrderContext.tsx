@@ -73,12 +73,24 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
   };
 
   const createOrder = (order: Order) => {
-    setOrders((state) => [...state, order]);
+    const ordersUpdated = [...orders, order];
+    setOrders(ordersUpdated);
+    localStorage.setItem(
+      "@coffee-delivery-orders",
+      JSON.stringify(ordersUpdated)
+    );
   };
 
   useEffect(() => {
     setItems([]);
   }, [orders]);
+
+  useEffect(() => {
+    const localStorageOrders = localStorage.getItem("@coffee-delivery-orders");
+    if (localStorageOrders) {
+      setOrders(JSON.parse(localStorageOrders));
+    }
+  }, []);
 
   return (
     <OrderContext.Provider
