@@ -47,6 +47,10 @@ export const OrdeResume = styled(BaseCard)`
     &:hover {
       opacity: 0.75;
     }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 `;
 

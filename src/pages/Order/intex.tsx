@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import OrderItem from "../../components/OrderItem";
 import RadioButton from "../../components/RadioButton";
 import TextInput from "../../components/TextInput";
+import useOrder from "../../hooks/useOrder";
 import {
   AddressFields,
   Divider,
@@ -27,6 +28,8 @@ import {
   PaymentOptionsContainer,
 } from "./styles";
 
+import coffeesList from "../../coffees.json";
+
 const orderValidationSchema = zod.object({
   cep: zod.number(),
   street: zod.string(),
@@ -41,6 +44,8 @@ const orderValidationSchema = zod.object({
 type OrderFormData = zod.infer<typeof orderValidationSchema>;
 
 export default function Order() {
+  const shippmentPrice = 3.5;
+  const { items } = useOrder();
   const { register, handleSubmit, formState, reset } = useForm<OrderFormData>({
     resolver: zodResolver(orderValidationSchema),
   });
@@ -51,6 +56,21 @@ export default function Order() {
   };
 
   console.log(formState.errors);
+
+  const orderCoffees = items.map((item) => {
+    const coffee = coffeesList.find((coffee) => coffee.id === item.id)!;
+    return {
+      ...coffee,
+      quantity: item.quantity,
+    };
+  });
+
+  const totalItemsPrice = orderCoffees.reduce((sum, orderCoffee) => {
+    sum += orderCoffee.price * orderCoffee.quantity;
+    return sum;
+  }, 0);
+
+  const totalPrice = shippmentPrice + totalItemsPrice;
 
   return (
     <OrderContainer onSubmit={handleSubmit(handleCreateOrder)}>
@@ -116,23 +136,43 @@ export default function Order() {
       <div>
         <OrderSectionTitle>Cafés selecionados</OrderSectionTitle>
         <OrdeResume>
-          <OrderItem />
+          {orderCoffees.map((orderCoffee) => (
+            <OrderItem item={orderCoffee} key={orderCoffee.id} />
+          ))}
           <Divider />
           <OrderTotal>
             <div>
               <span>Total de itens</span>
-              <span>R$ 29,70</span>
+              <span>
+                {totalItemsPrice.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                  currency: "BRL",
+                  style: "currency",
+                })}
+              </span>
             </div>
             <div>
               <span>Entrega</span>
-              <span>R$ 3,50</span>
+              <span>
+                {shippmentPrice.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                  currency: "BRL",
+                  style: "currency",
+                })}
+              </span>
             </div>
             <div>
               <span>Total</span>
-              <span>R$ 33,20</span>
+              <span>
+                {totalPrice.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                  currency: "BRL",
+                  style: "currency",
+                })}
+              </span>
             </div>
           </OrderTotal>
-          <button>Confirmar pedido</button>
+          <button disabled={orderCoffees.length === 0}>Confirmar pedido</button>
         </OrdeResume>
       </div>
     </OrderContainer>

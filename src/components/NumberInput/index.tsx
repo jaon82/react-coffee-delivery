@@ -13,11 +13,15 @@ export default function NumberInput({
 }: NumberInputProps) {
   return (
     <NumberInputContainer>
-      <CountButton onClick={handleDecreaseQuantity} disabled={quantity === 1}>
+      <CountButton
+        onClick={handleDecreaseQuantity}
+        disabled={quantity === 1}
+        type="button"
+      >
         <Minus size={14} />
       </CountButton>
       <span>{quantity}</span>
-      <CountButton onClick={handleIncreaseQuantity}>
+      <CountButton onClick={handleIncreaseQuantity} type="button">
         <Plus size={14} />
       </CountButton>
     </NumberInputContainer>
